@@ -23,6 +23,7 @@ jobs:
       - run:
           name: "run csv script"
           command: |
+           npm install json2csv
            node buildcsvdata.js
       
 # Invoke jobs via workflows
