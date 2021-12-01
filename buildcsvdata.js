@@ -6,7 +6,7 @@ const { Parser } = require('json2csv')
 const axios = require('axios');
 const dataDir = './_data';
 const mainbranch = process.env.CIRCLE_BRANCH;
-console.log('Var is:', mainbranch)
+console.log('Branch is:', mainbranch)
 //const developbranch = 'develop'
 
 const waiversFile = JSON.parse(fs.readFileSync(`${dataDir}/waivers-data.json`, 'utf-8'))
