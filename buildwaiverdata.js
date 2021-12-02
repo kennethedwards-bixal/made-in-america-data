@@ -8,6 +8,8 @@ const DATAURL = "https://submission.forms.gov/mia-live/madeinamericanonavailabil
 const GITHUBURL = "https://api.github.com/repos/GSA/made-in-america-data/contents/waivers-data.json"
 const API_KEY = process.env.GH_API_KEY
 const FORMSKEY = process.env.FORMS_API_KEY;
+const mainbranch = process.env.CIRCLE_BRANCH;
+console.log('Branch is:', mainbranch)
 
 async function loadData() {
   try {
@@ -23,6 +25,9 @@ async function loadData() {
 }
 
 async function getData(url) {
+  if (mainbranch === 'develop')  {
+    url = url + '?ref=develop'
+  }
   try {
     console.log('async data request...')
     // * result is the data from Forms and the token is the API key
@@ -235,7 +240,7 @@ function ajaxMethod(data, shaValue) {
       "message": "file uploaded on " + event.toLocaleDateString(undefined, options) + " at " + event.toLocaleTimeString('en-US'),
       "content": buffered,
       "sha" : shaValue,
-      "branch": "develop"
+      "branch": mainbranch
   })
 
   let config = {
