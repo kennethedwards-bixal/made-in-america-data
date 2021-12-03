@@ -1,14 +1,11 @@
+require('dotenv').config()
 const fs = require('fs')
-const WAIVERS_CSV_URL = "https://api.github.com/repos/GSA/made-in-america-data/contents/waiverscsv.csv"
-const API_KEY = process.env.GH_API_KEY
-const FORMSKEY = process.env.FORMS_API_KEY;
+const { GH_API_KEY: API_KEY, FORMS_API_KEY: FORMSKEY, CIRCLE_BRANCH} = process.env
+const WAIVERS_CSV_URL = `https://api.github.com/repos/GSA/made-in-america-data/contents/waiverscsv.csv?ref${process.env.CIRCLE_BRANCH}`;
 const { Parser } = require('json2csv')
 const axios = require('axios');
 const dataDir = './_data';
-const mainbranch = process.env.CIRCLE_BRANCH;
-console.log('Branch is:', mainbranch)
-//const developbranch = 'develop'
-
+console.log('Branch is:', CIRCLE_BRANCH)
 const waiversFile = JSON.parse(fs.readFileSync(`${dataDir}/waivers-data.json`, 'utf-8'))
 
 function convertJSONToCSV(jsondata) {
@@ -31,7 +28,7 @@ function convertJSONToCSV(jsondata) {
         "message": "uploading csv file",
         "content": buffered,
         "sha" : shaValue,
-        "branch" : mainbranch
+        "branch" : CIRCLE_BRANCH
     })
   
     let config = {
@@ -75,7 +72,7 @@ function convertJSONToCSV(jsondata) {
         "message": " delete csv file",
         "content": buffered,
         "sha" : sha,
-        "branch" : mainbranch
+        "branch" : CIRCLE_BRANCH
     })
   
     let config = {
@@ -100,10 +97,7 @@ function convertJSONToCSV(jsondata) {
 }
 
   async function getShaValue(url) {
-    console.log('Getting data again...') 
-    if (mainbranch === 'develop')  {
-      url = url + '?ref=develop'
-    }
+    console.log(`Getting data again...in the ${CIRCLE_BRANCH} branch`) 
     try {
       console.log('async data request...')
       // * result is the data from Forms and the token is the API key
@@ -112,7 +106,7 @@ function convertJSONToCSV(jsondata) {
         headers: {
           'x-token': FORMSKEY
         },
-        //"branch" : mainbranch
+        "branch" : CIRCLE_BRANCH
       })
       console.log('getting SHA Value for Update')
       const sha = result.data.sha;
