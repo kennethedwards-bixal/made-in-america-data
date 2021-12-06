@@ -1,10 +1,10 @@
 # made-in-america-data
 
 # Description
-- This repository contains scripts that pull the public field information from the Forms.gov API, and writes it to a JSON files, as well as another script which converts the JSON into a CSV file. The angular code from the madeinamerica.gov site pulls information from the JSON on demand.
+- This repository contains a script, 'buildwaiverdata.js' that pulls the public field information from the Forms.gov API for MIA, and writes it to a JSON file 'waivers-data.json', as well as a secondary 'buildcsvdata.js' script which converts the data in the 'waivers-data.json' file into a CSV file 'waiverscsv.csv'. The angular website code from the madeinamerica.gov site pulls information from the 'waivers-data.json' on demand.
 
 # Branches
-- This repo contains two branches active, develop and main. Main is the production branch and should not be written to directly except from valid pull requests that have been tested from develop. Developers should work in the develop branch (or make their own and make PRs to develop)
+- This repo contains two active branches, develop and main. Main is the production branch and should NOT be written to directly. Only valid and tested pull requests from the develop branch. Developers should work in the develop branch (or make their own and make PRs to develop).
 
 # CircleCI
 - The Develop and Main branches have respective independant CircleCI branches. The one for develop must be "approved" in cicrleCI to run (in a an effort to save run mins), the main branch runs on a schedule, 6am and Noon.
